@@ -7,9 +7,15 @@ app = Flask("Emotion Detector")
 
 @app.route("/emotionDetector")
 def emotion_detector_route():
-    """Process the text and return a formatted response string."""
+    """Process the text and return a formatted response string.
+
+    Returns an error message if the input is blank or invalid.
+    """
     text_to_analyze = request.args.get('textToAnalyze')
     response = emotion_detector(text_to_analyze)
+
+    if response['dominant_emotion'] is None:
+        return "Invalid text! Please try again!"
 
     anger = response['anger']
     disgust = response['disgust']
